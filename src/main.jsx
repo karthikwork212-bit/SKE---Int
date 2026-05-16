@@ -408,52 +408,45 @@ const handleSubmit = async (e) => {
 
        <form onSubmit={handleSubmit}>
 
-          <input
-  type="text"
-  name="name"
-  placeholder="Your Name"
-  value={formData.name}
-  onChange={handleChange}
-/>
+  <input
+    type="text"
+    name="name"
+    placeholder="Your Name"
+    value={formData.name}
+    onChange={handleChange}
+  />
 
-          <input
-  type="tel"
-  name="phone"
-  placeholder="Phone Number"
-  value={formData.phone}
-  onChange={handleChange}
-/>
+  <input
+    type="tel"
+    name="phone"
+    placeholder="Phone Number"
+    value={formData.phone}
+    onChange={handleChange}
+  />
 
-          <select
-  name="requirement"
-  value={formData.requirement}
-  onChange={handleChange}
->
+  <select
+    name="requirement"
+    value={formData.requirement}
+    onChange={handleChange}
+  >
 
-  <option>Select Requirement</option>
+    <option>Select Requirement</option>
 
-  <option>Home Lighting</option>
+    <option>Home Lighting</option>
 
-  <option>Commercial Lighting</option>
+    <option>Commercial Lighting</option>
 
-  <option>False Ceiling Lights</option>
+    <option>False Ceiling Lights</option>
 
-  <option>Luxury Interior Consultation</option>
+    <option>Luxury Interior Consultation</option>
 
-</select>
+  </select>
 
-          <textarea
-  name="message"
-  placeholder="Tell us about your project"
-  value={formData.message}
-  onChange={handleChange}
-></textarea>
+  <button type="submit" className="btn btn-primary">
+    Submit Inquiry
+  </button>
 
-          <button type="submit" className="btn btn-primary">
-  Submit Inquiry
-</button>
-
-        </form>
+</form>
 
       </div>
 
