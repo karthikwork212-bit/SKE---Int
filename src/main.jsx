@@ -449,9 +449,9 @@ const handleSubmit = async (e) => {
   onChange={handleChange}
 ></textarea>
 
-          <button className="btn btn-primary">
-            Submit Inquiry
-          </button>
+          <button type="submit" className="btn btn-primary">
+  Submit Inquiry
+</button>
 
         </form>
 
