@@ -43,7 +43,7 @@ const handleSubmit = async (e) => {
   try {
 
     const response = await fetch(
-      "http://localhost:5000/api/contact",
+      "https://sreekarthikenterprises.onrender.com/api/contact",
       {
         method: "POST",
 
