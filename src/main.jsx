@@ -442,12 +442,18 @@ const handleSubmit = async (e) => {
 
   </select>
 
+  <textarea
+    name="message"
+    placeholder="Your Message"
+    value={formData.message}
+    onChange={handleChange}
+  />
+
   <button type="submit" className="btn btn-primary">
     Submit Inquiry
   </button>
 
 </form>
-
       </div>
 
     </div>
