@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
+
 require("dotenv").config();
 
 const Contact = require("./models/Contact");
@@ -34,10 +36,36 @@ app.post("/api/contact", async (req, res) => {
 
     console.log(savedData);
 
-    console.log("Data Saved Successfully");
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: "New Inquiry Received",
+      text: `
+New Inquiry Details
+
+Name: ${req.body.name}
+
+Phone: ${req.body.phone}
+
+Requirement: ${req.body.requirement}
+
+Message: ${req.body.message}
+`
+    });
+
+    console.log("Email Sent Successfully");
 
     res.status(200).json({
-      success: true
+      success: true,
+      message: "Inquiry submitted successfully"
     });
 
   } catch (error) {
