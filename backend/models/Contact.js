@@ -3,15 +3,10 @@ const mongoose = require("mongoose");
 const contactSchema = new mongoose.Schema({
 
   name: String,
-
   phone: String,
-
   requirement: String,
-
   message: String
 
-}, {
-  timestamps: true
 });
 
 module.exports = mongoose.model("Contact", contactSchema);
