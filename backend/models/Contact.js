@@ -2,25 +2,13 @@ const mongoose = require("mongoose");
 
 const contactSchema = new mongoose.Schema({
 
-  name: {
-    type: String,
-    required: true
-  },
+  name: String,
 
-  phone: {
-    type: String,
-    required: true
-  },
+  phone: String,
 
-  requirement: {
-    type: String,
-    required: true
-  },
+  requirement: String,
 
-  message: {
-    type: String,
-    required: true
-  }
+  message: String
 
 }, {
   timestamps: true

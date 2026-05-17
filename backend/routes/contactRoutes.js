@@ -18,10 +18,11 @@ router.post("/contact", async (req, res) => {
 
     await newContact.save();
 
-    console.log("Data Saved");
+    console.log("Data Saved Successfully");
 
     res.status(200).json({
-      success: true
+      success: true,
+      message: "Saved"
     });
 
   } catch (error) {
