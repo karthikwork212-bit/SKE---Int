@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+
 const Contact = require("./models/Contact");
 
 const app = express();
@@ -51,6 +52,7 @@ app.post("/api/contact", async (req, res) => {
     });
   }
 });
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
