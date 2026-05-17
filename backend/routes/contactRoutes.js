@@ -1,67 +1,27 @@
 const express = require("express");
-
 const router = express.Router();
 
 const Contact = require("../models/Contact");
 
-const nodemailer = require("nodemailer");
-
-// EMAIL TRANSPORTER
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-router.post("/", async (req, res) => {
+router.post("/contact", async (req, res) => {
 
   try {
 
-    const {
-      name,
-      phone,
-      requirement,
-      message
-    } = req.body;
+    console.log(req.body);
 
-    // SAVE TO MONGODB
     const newContact = new Contact({
-      name,
-      phone,
-      requirement,
-      message
+      name: req.body.name,
+      email: req.body.email,
+      message: req.body.message
     });
 
     await newContact.save();
 
-    // SEND EMAIL NOTIFICATION
-    await transporter.sendMail({
+    console.log("Data Saved");
 
-      from: process.env.EMAIL_USER,
-
-      to: process.env.EMAIL_USER,
-
-      subject: "New Interior Design Enquiry",
-
-      text: `
-New enquiry received from website
-
-Name: ${name}
-
-Phone: ${phone}
-
-Requirement: ${requirement}
-
-Message: ${message}
-      `,
-
-    });
-
-    res.status(201).json({
+    res.status(200).json({
       success: true,
-      message: "Inquiry Submitted Successfully"
+      message: "Form submitted successfully"
     });
 
   } catch (error) {
@@ -70,11 +30,9 @@ Message: ${message}
 
     res.status(500).json({
       success: false,
-      message: "Server Error"
+      error: error.message
     });
-
   }
-
 });
 
 module.exports = router;
