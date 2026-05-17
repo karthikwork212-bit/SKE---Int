@@ -11,7 +11,8 @@ router.post("/contact", async (req, res) => {
 
     const newContact = new Contact({
       name: req.body.name,
-      email: req.body.email,
+      phone: req.body.phone,
+      requirement: req.body.requirement,
       message: req.body.message
     });
 
@@ -20,8 +21,7 @@ router.post("/contact", async (req, res) => {
     console.log("Data Saved");
 
     res.status(200).json({
-      success: true,
-      message: "Form submitted successfully"
+      success: true
     });
 
   } catch (error) {
