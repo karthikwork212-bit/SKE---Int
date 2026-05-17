@@ -13,10 +13,6 @@ app.use(cors({
 
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
-
 app.get("/", (req, res) => {
   res.send("Backend Running");
 });
@@ -34,20 +30,23 @@ app.post("/api/contact", async (req, res) => {
       message: req.body.message
     });
 
-    await newContact.save();
+    const savedData = await newContact.save();
+
+    console.log(savedData);
 
     console.log("Data Saved Successfully");
 
     res.status(200).json({
-      success: true,
-      message: "Form submitted"
+      success: true
     });
 
   } catch (error) {
 
+    console.log("SAVE ERROR:");
     console.log(error);
 
     res.status(500).json({
+      success: false,
       error: error.message
     });
   }
@@ -55,6 +54,16 @@ app.post("/api/contact", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+
+  console.log("MongoDB Connected");
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+
+})
+.catch((err) => {
+  console.log(err);
 });
