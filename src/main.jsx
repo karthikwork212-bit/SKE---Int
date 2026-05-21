@@ -46,18 +46,20 @@ const handleSubmit = async (e) => {
       "https://sreekarthikenterprises.onrender.com/api/contact",
       {
         method: "POST",
-
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       }
     );
 
+    console.log(response);
+
     const data = await response.json();
 
-    if (data.success) {
+    console.log(data);
+
+    if (response.ok && data.success) {
 
       alert("Inquiry Submitted Successfully");
 
@@ -65,19 +67,23 @@ const handleSubmit = async (e) => {
         name: "",
         phone: "",
         requirement: "",
-        message: ""
+        message: "",
       });
+
+    } else {
+
+      alert(data.error || "Submission failed");
 
     }
 
   } catch (error) {
 
+    console.log("FRONTEND ERROR:");
     console.log(error);
 
     alert("Something went wrong");
 
   }
-
 };
   const products = [
     {
