@@ -38,42 +38,21 @@ app.post("/api/contact", async (req, res) => {
 
     try {
 
-  app.post("/api/contact", async (req, res) => {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
 
-  try {
-
-    console.log(req.body);
-
-    const newContact = new Contact({
-      name: req.body.name,
-      phone: req.body.phone,
-      requirement: req.body.requirement,
-      message: req.body.message
-    });
-
-    const savedData = await newContact.save();
-
-    console.log(savedData);
-
-    try {
-
-      try {
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: "rkarthik.9848@gmail.com",
-    subject: "New Inquiry Received",
-    text: `
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: "rkarthik.9848@gmail.com",
+        subject: "New Inquiry Received",
+        text: `
 New Inquiry Details
 
 Name: ${req.body.name}
@@ -83,17 +62,17 @@ Phone: ${req.body.phone}
 Requirement: ${req.body.requirement}
 
 Message: ${req.body.message}
-`,
-  });
+`
+      });
 
-  console.log("Email Sent Successfully");
+      console.log("Email Sent Successfully");
 
-} catch (mailError) {
+    } catch (mailError) {
 
-  console.log("MAIL ERROR:");
-  console.log(mailError);
+      console.log("MAIL ERROR:");
+      console.log(mailError);
 
-}
+    }
 
     res.status(200).json({
       success: true,
@@ -113,7 +92,6 @@ Message: ${req.body.message}
   }
 
 });
-
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI)
