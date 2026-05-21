@@ -355,9 +355,9 @@ const handleSubmit = async (e) => {
           <h3>Get In Touch</h3>
 
           <div className="info-item">
-            <strong>Phone</strong>
-            <span>+91 9246246228</span>
-          </div>
+  <strong>Proprietor</strong>
+  <span>Anand</span>
+</div>
 
           <div className="info-item">
             <strong>WhatsApp</strong>
