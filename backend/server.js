@@ -37,12 +37,16 @@ app.post("/api/contact", async (req, res) => {
     console.log(savedData);
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+await transporter.verify();
+console.log("Transporter Ready");
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
@@ -71,7 +75,8 @@ Message: ${req.body.message}
   } catch (error) {
 
     console.log("SAVE ERROR:");
-    console.log(error);
+   console.log("EMAIL ERROR:");
+console.log(error);
 
     res.status(500).json({
       success: false,
