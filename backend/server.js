@@ -36,17 +36,17 @@ app.post("/api/contact", async (req, res) => {
 
     console.log(savedData);
 
-    try {
+    // Send Email in background
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
 
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
-
-      await transporter.sendMail({
+    transporter.sendMail(
+      {
         from: process.env.EMAIL_USER,
         to: "rkarthik.9848@gmail.com",
         subject: "New Inquiry Received",
@@ -56,16 +56,23 @@ app.post("/api/contact", async (req, res) => {
           "Phone: " + req.body.phone + "\n\n" +
           "Requirement: " + req.body.requirement + "\n\n" +
           "Message: " + req.body.message,
-      });
+      },
+      (error, info) => {
 
-      console.log("Email Sent Successfully");
+        if (error) {
 
-    } catch (mailError) {
+          console.log("MAIL ERROR:");
+          console.log(error);
 
-      console.log("MAIL ERROR:");
-      console.log(mailError);
+        } else {
 
-    }
+          console.log("Email Sent Successfully");
+          console.log(info.response);
+
+        }
+
+      }
+    );
 
     res.status(200).json({
       success: true,
@@ -85,6 +92,7 @@ app.post("/api/contact", async (req, res) => {
   }
 
 });
+
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI)
