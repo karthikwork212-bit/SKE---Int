@@ -36,23 +36,7 @@ app.post("/api/contact", async (req, res) => {
 
     console.log(savedData);
 
-    try {
-
-  // Email temporarily disabled
-
-} catch (mailError) {
-
-  console.log("MAIL ERROR:");
-  console.log(mailError);
-
-};
-
-    } catch (mailError) {
-
-      console.log("MAIL ERROR:");
-      console.log(mailError);
-
-    }
+    // Email temporarily disabled
 
     res.status(200).json({
       success: true,
