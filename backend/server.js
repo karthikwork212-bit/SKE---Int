@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const nodemailer = require("nodemailer");
+const twilio = require("twilio");
 
 require("dotenv").config();
 
 const Contact = require("./models/Contact");
 
 const app = express();
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
 app.use(cors({
   origin: "https://ske-int.vercel.app"
@@ -36,43 +40,20 @@ app.post("/api/contact", async (req, res) => {
 
     console.log(savedData);
 
-    // Send Email in background
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    transporter.sendMail(
-      {
-        from: process.env.EMAIL_USER,
-        to: "rkarthik.9848@gmail.com",
-        subject: "New Inquiry Received",
-        text:
-          "New Inquiry Details\n\n" +
-          "Name: " + req.body.name + "\n\n" +
-          "Phone: " + req.body.phone + "\n\n" +
-          "Requirement: " + req.body.requirement + "\n\n" +
-          "Message: " + req.body.message,
-      },
-      (error, info) => {
-
-        if (error) {
-
-          console.log("MAIL ERROR:");
-          console.log(error);
-
-        } else {
-
-          console.log("Email Sent Successfully");
-          console.log(info.response);
-
-        }
-
-      }
-    );
+   client.messages
+  .create({
+    from: process.env.TWILIO_WHATSAPP_NUMBER,
+    to: "whatsapp:+917675979639",
+    body:
+      "New Inquiry Received\n\n" +
+      "Name: " + req.body.name + "\n" +
+      "Phone: " + req.body.phone + "\n" +
+      "Requirement: " + req.body.requirement + "\n" +
+      "Message: " + req.body.message,
+  })
+  .then(message => console.log(message.sid))
+  .catch(error => console.log(error));
+    
 
     res.status(200).json({
       success: true,
