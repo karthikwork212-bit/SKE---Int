@@ -36,7 +36,36 @@ app.post("/api/contact", async (req, res) => {
 
     console.log(savedData);
 
-    // Email temporarily disabled
+    try {
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: "rkarthik.9848@gmail.com",
+        subject: "New Inquiry Received",
+        text:
+          "New Inquiry Details\n\n" +
+          "Name: " + req.body.name + "\n\n" +
+          "Phone: " + req.body.phone + "\n\n" +
+          "Requirement: " + req.body.requirement + "\n\n" +
+          "Message: " + req.body.message,
+      });
+
+      console.log("Email Sent Successfully");
+
+    } catch (mailError) {
+
+      console.log("MAIL ERROR:");
+      console.log(mailError);
+
+    }
 
     res.status(200).json({
       success: true,
