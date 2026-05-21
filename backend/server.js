@@ -46,7 +46,7 @@ app.post("/api/contact", async (req, res) => {
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      to: "rkarthik.9848@gmail.com",
       subject: "New Inquiry Received",
       text: `
 New Inquiry Details
