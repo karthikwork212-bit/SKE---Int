@@ -38,34 +38,14 @@ app.post("/api/contact", async (req, res) => {
 
     try {
 
-      const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+  // Email temporarily disabled
 
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: "rkarthik.9848@gmail.com",
-        subject: "New Inquiry Received",
-        text: `
-New Inquiry Details
+} catch (mailError) {
 
-Name: ${req.body.name}
+  console.log("MAIL ERROR:");
+  console.log(mailError);
 
-Phone: ${req.body.phone}
-
-Requirement: ${req.body.requirement}
-
-Message: ${req.body.message}
-`
-      });
-
-      console.log("Email Sent Successfully");
+};
 
     } catch (mailError) {
 
