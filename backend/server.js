@@ -57,25 +57,23 @@ app.post("/api/contact", async (req, res) => {
 
     try {
 
-      const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+      try {
 
-      await transporter.verify();
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-      console.log("Transporter Ready");
-
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: "rkarthik.9848@gmail.com",
-        subject: "New Inquiry Received",
-        text: `
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: "rkarthik.9848@gmail.com",
+    subject: "New Inquiry Received",
+    text: `
 New Inquiry Details
 
 Name: ${req.body.name}
@@ -86,16 +84,16 @@ Requirement: ${req.body.requirement}
 
 Message: ${req.body.message}
 `,
-      });
+  });
 
-      console.log("Email Sent Successfully");
+  console.log("Email Sent Successfully");
 
-    } catch (mailError) {
+} catch (mailError) {
 
-      console.log("MAIL ERROR:");
-      console.log(mailError);
+  console.log("MAIL ERROR:");
+  console.log(mailError);
 
-    }
+}
 
     res.status(200).json({
       success: true,
